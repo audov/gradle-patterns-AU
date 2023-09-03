@@ -3,6 +3,7 @@ package ru.netology.patterns.au;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
@@ -22,13 +23,18 @@ public class CardDeliveryTest {
         Configuration.browser = "firefox";
     }
 
+    @BeforeEach
+    public void setUpEach() {
+
+        open("http://localhost:9999");
+    }
+
     private String generateDate(int addDays, String pattern) {
         return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
     }
 
     @Test
     void formCompleteSuccess() {
-        open("http://localhost:9999");
         $("[data-test-id='city'] input").setValue("Хабаровск");
         String currentDate = generateDate(3, "dd.MM.yyyy");
         $("[data-test-id='date'] input")
@@ -47,7 +53,6 @@ public class CardDeliveryTest {
 
     @Test
     void dateEarlier3DaysPlus() {
-        open("http://localhost:9999");
         $("[data-test-id='city'] input").setValue("Хабаровск");
         String currentDate = generateDate(2, "dd.MM.yyyy");
         $("[data-test-id='date'] input")
@@ -64,8 +69,6 @@ public class CardDeliveryTest {
 
     @Test
     void latinLettersInNameFailed() {
-
-        open("http://localhost:9999");
         $("[data-test-id='city'] input").setValue("Хабаровск");
         String currentDate = generateDate(3, "dd.MM.yyyy");
         $("[data-test-id='date'] input")
@@ -82,15 +85,13 @@ public class CardDeliveryTest {
 
     @Test
     void phoneNumberLengthFailed() {
-
-        open("http://localhost:9999");
         $("[data-test-id='city'] input").setValue("Хабаровск");
         String currentDate = generateDate(3, "dd.MM.yyyy");
         $("[data-test-id='date'] input")
                 .sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
         $("[data-test-id='date'] input").sendKeys(currentDate);
         $("[data-test-id='name'] input").setValue("Воронина Елена");
-        $("[data-test-id='phone'] input").setValue("79109643232");
+        $("[data-test-id='phone'] input").setValue("+7910964323");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
         $("[data-test-id='phone'].input_invalid .input__sub")
@@ -100,8 +101,6 @@ public class CardDeliveryTest {
 
     @Test
     void agreementBoxUncheckedFailed() {
-
-        open("http://localhost:9999");
         $("[data-test-id='city'] input").setValue("Хабаровск");
         String currentDate = generateDate(3, "dd.MM.yyyy");
         $("[data-test-id='date'] input")
@@ -117,8 +116,6 @@ public class CardDeliveryTest {
 
     @Test
     void cityAndDateFromDroppedListAdd3() {
-
-        open("http://localhost:9999");
         $("[data-test-id='city'] input").sendKeys("Ха");
         $$(".menu-item__control").findBy(text("Хабаровск")).click();
         $(".icon-button__text").click();
@@ -144,8 +141,6 @@ public class CardDeliveryTest {
 
     @Test
     void cityAndDateFromDroppedListAdd7() {
-
-        open("http://localhost:9999");
         $("[data-test-id='city'] input").sendKeys("Ха");
         $$(".menu-item__control").findBy(text("Хабаровск")).click();
         $(".icon-button__text").click();

@@ -29,6 +29,7 @@ public class DeliveryTest {
 
     @BeforeEach
     void setUpEach() {
+
         faker = new Faker(new Locale("ru"));
     }
 
@@ -52,21 +53,11 @@ public class DeliveryTest {
                 .shouldBe(Condition.visible, Duration.ofSeconds(15))
                 .shouldHave(Condition.exactText("Успешно!"));
         $(byXpath("//*[normalize-space(.)='Встреча успешно забронирована на ' and contains(@class 'notification__content')]"));
-        //$("[data-test-id='success-notification'] .notification__content")
-        //        .shouldHave(Condition.text(
-        //                "Встреча успешно забронирована на "
-        //                        + firstMeetingDate));
         $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
         $("[data-test-id='date'] input").setValue(secondMeetingDate);
         $("button.button").click();
         $(byXpath("//*[normalize-space(.)='У вас уже запланирована встреча на другую дату. Перепланировать?' and contains(@class 'notification__content')]"));
-        //$("[data-test-id='replan-notification'] .notification__content")
-        //        .shouldBe(Condition.visible, Duration.ofSeconds(15))
-        //        .shouldHave(Condition.exactText("У вас уже запланирована встреча на другую дату. Перепланировать?"));
         $("[data-test-id='replan-notification'] button").click();
         $(byXpath("//*[normalize-space(.)='Встреча успешно забронирована на ' and contains(@class 'notification__content')]"));
-        //$("[data-test-id='replan-notification'] .notification__content")
-        //        .shouldBe(Condition.visible, Duration.ofSeconds(15))
-        //        .shouldHave(Condition.text("Встреча успешно забронирована на " + secondMeetingDate));
     }
 }
