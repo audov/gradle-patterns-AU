@@ -44,11 +44,12 @@ public class CardDeliveryTest {
         $("[data-test-id='phone'] input").setValue("+79109643232");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
-        $(".notification__title")
+        $("[data-test-id='success-notification'] .notification__title")
                 .shouldBe(Condition.visible, Duration.ofSeconds(15))
                 .shouldHave(Condition.exactText("Успешно!"));
-        $(".notification__content")
-                .shouldHave(Condition.text("Встреча успешно забронирована на " + currentDate));
+        $("[data-test-id='success-notification'] .notification__content")
+                .shouldBe(Condition.visible, Duration.ofSeconds(15))
+                .shouldHave(Condition.exactText("Встреча успешно забронирована на " + currentDate));
     }
 
     @Test
@@ -132,10 +133,11 @@ public class CardDeliveryTest {
         $("[data-test-id='phone'] input").setValue("+79109643232");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
-        $(".notification__title")
+        $("[data-test-id='success-notification'] .notification__title")
                 .shouldBe(Condition.visible, Duration.ofSeconds(15))
                 .shouldHave(Condition.exactText("Успешно!"));
-        $(".notification__content")
+        $("[data-test-id='success-notification'] .notification__content")
+                .shouldBe(Condition.visible, Duration.ofSeconds(15))
                 .shouldHave(Condition.text("Встреча успешно забронирована на " + compareDay));
     }
 
@@ -157,10 +159,11 @@ public class CardDeliveryTest {
         $("[data-test-id='phone'] input").setValue("+79109643232");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
-        $(".notification__title")
+        $("[data-test-id='success-notification'] .notification__title")
                 .shouldBe(Condition.visible, Duration.ofSeconds(15))
                 .shouldHave(Condition.exactText("Успешно!"));
-        $(".notification__content")
+        $("[data-test-id='success-notification'] .notification__content")
+                .shouldBe(Condition.visible, Duration.ofSeconds(15))
                 .shouldHave(Condition.text("Встреча успешно забронирована на " + compareDay));
     }
 }

@@ -12,17 +12,19 @@ import org.openqa.selenium.Keys;
 import java.time.Duration;
 import java.util.Locale;
 
-import static com.codeborne.selenide.Selectors.byXpath;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class DeliveryTest {
+
 
     @BeforeAll
     public static void setUpAll() {
 
         Configuration.browser = "firefox";
         open("http://localhost:9999");
+
     }
 
     private Faker faker;
@@ -49,15 +51,27 @@ public class DeliveryTest {
         $("[data-test-id='phone'] input").setValue(validUser.getPhone());
         $("[data-test-id='agreement']").click();
         $("button.button").click();
-        $(".notification__title")
-                .shouldBe(Condition.visible, Duration.ofSeconds(15))
+        $("[data-test-id='success-notification'] .notification__title")
+                .shouldBe(visible, Duration.ofSeconds(15))
                 .shouldHave(Condition.exactText("Успешно!"));
-        $(byXpath("//*[normalize-space(.)='Встреча успешно забронирована на ' and contains(@class 'notification__content')]"));
+        $("[data-test-id='success-notification'] .notification__content")
+                .shouldBe(visible, Duration.ofSeconds(15))
+                .shouldHave(Condition.exactText("Встреча успешно запланирована на " + firstMeetingDate));
         $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
         $("[data-test-id='date'] input").setValue(secondMeetingDate);
         $("button.button").click();
-        $(byXpath("//*[normalize-space(.)='У вас уже запланирована встреча на другую дату. Перепланировать?' and contains(@class 'notification__content')]"));
+        $("[data-test-id='replan-notification'] .notification__title")
+                .shouldBe(visible, Duration.ofSeconds(15))
+                .shouldHave(Condition.exactText("Необходимо подтверждение"));
+        $("[data-test-id='replan-notification'] .notification__content")
+                .shouldBe(visible, Duration.ofSeconds(15))
+                .shouldHave(Condition.exactOwnText("У вас уже запланирована встреча на другую дату. Перепланировать?"));
         $("[data-test-id='replan-notification'] button").click();
-        $(byXpath("//*[normalize-space(.)='Встреча успешно забронирована на ' and contains(@class 'notification__content')]"));
+        $("[data-test-id='success-notification'] .notification__title")
+                .shouldBe(visible, Duration.ofSeconds(15))
+                .shouldHave(Condition.exactText("Успешно!"));
+        $("[data-test-id='success-notification'] .notification__content")
+                .shouldBe(visible, Duration.ofSeconds(15))
+                .shouldHave(Condition.exactText("Встреча успешно запланирована на " + secondMeetingDate));
     }
 }
