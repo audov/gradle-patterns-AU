@@ -14,7 +14,7 @@ public class DataGenerator {
     }
 
     public static String generateDate(int shift) {
-        return LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        return LocalDate.now().plusDays(shift).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
     }
 
     public static String generateCity() {
@@ -29,8 +29,14 @@ public class DataGenerator {
         return faker.name().fullName();
     }
 
-    public static String generatePhone(String locale) {
+    public static String generatePhone() {
         var phone = new String[]{"+79037109696", "+79057109696", "+79107109696"};
+
+        return phone[new Random().nextInt(phone.length)];
+    }
+
+    public static String generateWrongPhone() {
+        var phone = new String[]{"+7903710969", "+7905710969", "+7910710969"};
 
         return phone[new Random().nextInt(phone.length)];
     }
@@ -41,7 +47,7 @@ public class DataGenerator {
 
         public static UserInfo generateUser(String locale) {
 
-            return new UserInfo(generateCity(), generateName(locale), generatePhone(locale));
+            return new UserInfo(generateCity(), generateName(locale), generatePhone());
         }
     }
 

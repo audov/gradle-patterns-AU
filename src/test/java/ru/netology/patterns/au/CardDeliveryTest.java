@@ -35,13 +35,13 @@ public class CardDeliveryTest {
 
     @Test
     void formCompleteSuccess() {
-        $("[data-test-id='city'] input").setValue("Хабаровск");
-        String currentDate = generateDate(3, "dd.MM.yyyy");
+        $("[data-test-id='city'] input").setValue(DataGenerator.generateCity());
         $("[data-test-id='date'] input")
                 .sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
-        $("[data-test-id='date'] input").sendKeys(currentDate);
-        $("[data-test-id='name'] input").setValue("Воронина Елена");
-        $("[data-test-id='phone'] input").setValue("+79109643232");
+        String plannedDate = DataGenerator.generateDate(4);
+        $("[data-test-id='date'] input").setValue(plannedDate);
+        $("[data-test-id='name'] input").setValue(DataGenerator.generateName("ru"));
+        $("[data-test-id='phone'] input").setValue(DataGenerator.generatePhone());
         $("[data-test-id='agreement']").click();
         $("button.button").click();
         $("[data-test-id='success-notification'] .notification__title")
@@ -49,18 +49,18 @@ public class CardDeliveryTest {
                 .shouldHave(Condition.exactText("Успешно!"));
         $("[data-test-id='success-notification'] .notification__content")
                 .shouldBe(Condition.visible, Duration.ofSeconds(15))
-                .shouldHave(Condition.exactText("Встреча успешно забронирована на " + currentDate));
+                .shouldHave(Condition.exactText("Встреча успешно запланирована на " + plannedDate));
     }
 
     @Test
     void dateEarlier3DaysPlus() {
-        $("[data-test-id='city'] input").setValue("Хабаровск");
-        String currentDate = generateDate(2, "dd.MM.yyyy");
+        $("[data-test-id='city'] input").setValue(DataGenerator.generateCity());
         $("[data-test-id='date'] input")
                 .sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
-        $("[data-test-id='date'] input").sendKeys(currentDate);
-        $("[data-test-id='name'] input").setValue("Воронина Елена");
-        $("[data-test-id='phone'] input").setValue("+79109643232");
+        String plannedDate = DataGenerator.generateDate(2);
+        $("[data-test-id='date'] input").sendKeys(plannedDate);
+        $("[data-test-id='name'] input").setValue(DataGenerator.generateName("ru"));
+        $("[data-test-id='phone'] input").setValue(DataGenerator.generatePhone());
         $("[data-test-id='agreement']").click();
         $("button.button").click();
         $("[data-test-id='date'] .input_invalid .input__sub")
@@ -70,13 +70,13 @@ public class CardDeliveryTest {
 
     @Test
     void latinLettersInNameFailed() {
-        $("[data-test-id='city'] input").setValue("Хабаровск");
-        String currentDate = generateDate(3, "dd.MM.yyyy");
+        $("[data-test-id='city'] input").setValue(DataGenerator.generateCity());
         $("[data-test-id='date'] input")
                 .sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
-        $("[data-test-id='date'] input").sendKeys(currentDate);
-        $("[data-test-id='name'] input").setValue("Voronina Елена");
-        $("[data-test-id='phone'] input").setValue("+79109643232");
+        String plannedDate = DataGenerator.generateDate(4);
+        $("[data-test-id='date'] input").sendKeys(plannedDate);
+        $("[data-test-id='name'] input").setValue(DataGenerator.generateName("en"));
+        $("[data-test-id='phone'] input").setValue(DataGenerator.generatePhone());
         $("[data-test-id='agreement']").click();
         $("button.button").click();
         $("[data-test-id='name'].input_invalid .input__sub")
@@ -86,13 +86,13 @@ public class CardDeliveryTest {
 
     @Test
     void phoneNumberLengthFailed() {
-        $("[data-test-id='city'] input").setValue("Хабаровск");
-        String currentDate = generateDate(3, "dd.MM.yyyy");
+        $("[data-test-id='city'] input").setValue(DataGenerator.generateCity());
         $("[data-test-id='date'] input")
                 .sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
-        $("[data-test-id='date'] input").sendKeys(currentDate);
-        $("[data-test-id='name'] input").setValue("Воронина Елена");
-        $("[data-test-id='phone'] input").setValue("+7910964323");
+        String plannedDate = DataGenerator.generateDate(4);
+        $("[data-test-id='date'] input").sendKeys(plannedDate);
+        $("[data-test-id='name'] input").setValue(DataGenerator.generateName("ru"));
+        $("[data-test-id='phone'] input").setValue(DataGenerator.generateWrongPhone());
         $("[data-test-id='agreement']").click();
         $("button.button").click();
         $("[data-test-id='phone'].input_invalid .input__sub")
@@ -102,13 +102,13 @@ public class CardDeliveryTest {
 
     @Test
     void agreementBoxUncheckedFailed() {
-        $("[data-test-id='city'] input").setValue("Хабаровск");
-        String currentDate = generateDate(3, "dd.MM.yyyy");
+        $("[data-test-id='city'] input").setValue(DataGenerator.generateCity());
         $("[data-test-id='date'] input")
                 .sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
-        $("[data-test-id='date'] input").sendKeys(currentDate);
-        $("[data-test-id='name'] input").setValue("Воронина Елена");
-        $("[data-test-id='phone'] input").setValue("+79109643232");
+        String plannedDate = DataGenerator.generateDate(4);
+        $("[data-test-id='date'] input").sendKeys(plannedDate);
+        $("[data-test-id='name'] input").setValue(DataGenerator.generateName("ru"));
+        $("[data-test-id='phone'] input").setValue(DataGenerator.generatePhone());
         $("button.button").click();
         $("[data-test-id='agreement'] .checkbox__text")
                 .shouldBe(Condition.visible, Duration.ofSeconds(15))
@@ -117,8 +117,8 @@ public class CardDeliveryTest {
 
     @Test
     void cityAndDateFromDroppedListAdd3() {
-        $("[data-test-id='city'] input").sendKeys("Ха");
-        $$(".menu-item__control").findBy(text("Хабаровск")).click();
+        $("[data-test-id='city'] input").sendKeys("Мо");
+        $$(".menu-item__control").findBy(text("Москва")).click();
         $(".icon-button__text").click();
         int addDays = 3;
         String currentMonth = generateDate(0, "M");
@@ -129,8 +129,8 @@ public class CardDeliveryTest {
             $("[data-step='1']").click();
         }
         $$("[data-day]").findBy(text(plannedDay)).click();
-        $("[data-test-id='name'] input").setValue("Воронина Елена");
-        $("[data-test-id='phone'] input").setValue("+79109643232");
+        $("[data-test-id='name'] input").setValue("Воронина Анжела");
+        $("[data-test-id='phone'] input").setValue("+79109643233");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
         $("[data-test-id='success-notification'] .notification__title")
@@ -138,13 +138,13 @@ public class CardDeliveryTest {
                 .shouldHave(Condition.exactText("Успешно!"));
         $("[data-test-id='success-notification'] .notification__content")
                 .shouldBe(Condition.visible, Duration.ofSeconds(15))
-                .shouldHave(Condition.text("Встреча успешно забронирована на " + compareDay));
+                .shouldHave(Condition.text("Встреча успешно запланирована на " + compareDay));
     }
 
     @Test
     void cityAndDateFromDroppedListAdd7() {
-        $("[data-test-id='city'] input").sendKeys("Ха");
-        $$(".menu-item__control").findBy(text("Хабаровск")).click();
+        $("[data-test-id='city'] input").sendKeys("Ка");
+        $$(".menu-item__control").findBy(text("Казань")).click();
         $(".icon-button__text").click();
         int addDays = 7;
         String currentMonth = generateDate(0, "M");
@@ -155,8 +155,8 @@ public class CardDeliveryTest {
             $("[data-step='1']").click();
         }
         $$("[data-day]").findBy(text(plannedDay)).click();
-        $("[data-test-id='name'] input").setValue("Воронина Елена");
-        $("[data-test-id='phone'] input").setValue("+79109643232");
+        $("[data-test-id='name'] input").setValue("Воронина Вера");
+        $("[data-test-id='phone'] input").setValue("+79109643234");
         $("[data-test-id='agreement']").click();
         $("button.button").click();
         $("[data-test-id='success-notification'] .notification__title")
@@ -164,6 +164,6 @@ public class CardDeliveryTest {
                 .shouldHave(Condition.exactText("Успешно!"));
         $("[data-test-id='success-notification'] .notification__content")
                 .shouldBe(Condition.visible, Duration.ofSeconds(15))
-                .shouldHave(Condition.text("Встреча успешно забронирована на " + compareDay));
+                .shouldHave(Condition.text("Встреча успешно запланирована на " + compareDay));
     }
 }

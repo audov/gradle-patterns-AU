@@ -23,8 +23,6 @@ public class DeliveryTest {
     public static void setUpAll() {
 
         Configuration.browser = "firefox";
-        open("http://localhost:9999");
-
     }
 
     private Faker faker;
@@ -32,6 +30,7 @@ public class DeliveryTest {
     @BeforeEach
     void setUpEach() {
 
+        open("http://localhost:9999");
         faker = new Faker(new Locale("ru"));
     }
 
