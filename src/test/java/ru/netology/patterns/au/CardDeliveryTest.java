@@ -92,7 +92,7 @@ public class CardDeliveryTest {
         String plannedDate = DataGenerator.generateDate(4);
         $("[data-test-id='date'] input").sendKeys(plannedDate);
         $("[data-test-id='name'] input").setValue(DataGenerator.generateName("ru"));
-        $("[data-test-id='phone'] input").setValue(DataGenerator.generateWrongPhone());
+        $("[data-test-id='phone'] input").setValue(DataGenerator.generatePhone().substring(1, 11));
         $("[data-test-id='agreement']").click();
         $("button.button").click();
         $("[data-test-id='phone'].input_invalid .input__sub")

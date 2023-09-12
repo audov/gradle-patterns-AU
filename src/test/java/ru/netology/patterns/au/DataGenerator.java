@@ -35,13 +35,7 @@ public class DataGenerator {
         return phone[new Random().nextInt(phone.length)];
     }
 
-    public static String generateWrongPhone() {
-        var phone = new String[]{"+7903710969", "+7905710969", "+7910710969"};
-
-        return phone[new Random().nextInt(phone.length)];
-    }
-
-    public static class Registration {
+     public static class Registration {
         private Registration() {
         }
 
